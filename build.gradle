@@ -1,0 +1,46 @@
+apply plugin: "groovy"
+apply plugin: "project-report"
+
+def springVersion = "3.0.5.RELEASE"
+def slf4jVersion = "1.6.1"
+
+task hello {
+  doLast {
+    println "Finished!"
+  }
+}
+
+repositories {
+  mavenRepo name: "spock", urls: "http://m2repo.spockframework.org/snapshots"
+  mavenCentral()
+}
+
+dependencies {
+  groovy group: "org.codehaus.groovy", name: "groovy-all", version: "1.7.5"
+
+  // Logging
+  compile "log4j:log4j:1.2.16"
+  compile "org.slf4j:slf4j-api:$slf4jVersion"
+  compile "org.slf4j:slf4j-log4j12:$slf4jVersion"
+  compile "org.slf4j:jcl-over-slf4j:$slf4jVersion"
+
+  // Spring Framework
+  compile("org.springframework:spring-beans:$springVersion") {
+    exclude group: "commons-logging", module: "commons-logging"
+  }
+  compile("org.springframework:spring-core:$springVersion") {
+    exclude group: "commons-logging", module: "commons-logging"
+  }
+  compile("org.springframework:spring-context:$springVersion") {
+    exclude group: "commons-logging", module: "commons-logging"
+  }
+  compile("org.springframework:spring-web:$springVersion")
+
+  // Jackson JSON
+  compile "org.codehaus.jackson:jackson-core-asl:1.6.0"
+  compile "org.codehaus.jackson:jackson-mapper-asl:1.6.0"
+
+  // Tests/JUnit
+  testCompile "junit:junit:4+"
+  testCompile "org.spockframework:spock-core:0.5-groovy-1.7-SNAPSHOT"
+}
